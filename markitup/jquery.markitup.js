@@ -414,6 +414,9 @@
 				if (!previewWindow || previewWindow.closed) {
 					if (options.previewInWindow) {
 						previewWindow = window.open('', 'preview', options.previewInWindow);
+						$(window).unload(function(){
+							previewWindow.close();
+						});
 					} else {
 						iFrame = $('<iframe class="markItUpPreviewFrame"></iframe>');
 						if (options.previewPosition == 'after') {
@@ -434,6 +437,9 @@
 				}
 				if (!options.previewAutoRefresh) {
 					refreshPreview(); 
+				}
+				if (options.previewInWindow) {
+					previewWindow.focus();
 				}
 			}
 
@@ -477,9 +483,6 @@
 					previewWindow.document.write(data);
 					previewWindow.document.close();
 					previewWindow.document.documentElement.scrollTop = sp;
-				}
-				if (options.previewInWindow) {
-					previewWindow.focus();
 				}
 			}
 			
